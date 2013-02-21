@@ -76,10 +76,7 @@ Ext.define('Ext.ux.form.field.DateTime', {
     timeField: null,
 
     initComponent: function(){
-        var me = this,
-            i = 0,
-            key,
-            tab;
+        var me = this;
             
         Ext.apply(me,{
             isFormField: true, //so it will be included in form field query's
@@ -139,8 +136,8 @@ Ext.define('Ext.ux.form.field.DateTime', {
             }
         });
     },
-    
-    // inherited docs
+
+	// @inheritdoc
     getErrors: function(){
         return [].concat(this.dateField.getErrors()).concat(this.timeField.getErrors());
     },
@@ -171,8 +168,8 @@ Ext.define('Ext.ux.form.field.DateTime', {
         }
         return value;
     },
-    
-    // inherited docs
+
+    // @inheritdoc
     isDirty: function(){
         var dirty = false;
         if(this.rendered && !this.disabled) {
@@ -187,12 +184,12 @@ Ext.define('Ext.ux.form.field.DateTime', {
     },
     
     // private
-    onDisable : function(){
+    onDisable: function(){
         this.delegateFn('disable');
     },
     
     // private
-    onEnable : function(){
+    onEnable: function(){
         this.delegateFn('enable');
     },
     
@@ -200,9 +197,9 @@ Ext.define('Ext.ux.form.field.DateTime', {
     onFieldChange: function(){
         this.fireEvent('change', this, this.getValue());
     },
-    
-    // inherited docs
-    reset : function(){
+
+    //@inheritdoc
+    reset: function(){
         this.delegateFn('reset');
     },
     
@@ -227,5 +224,3 @@ Ext.define('Ext.ux.form.field.DateTime', {
         return this.dateField.isValid() && this.timeField.isValid();
     }
 });
-
-//eo file
