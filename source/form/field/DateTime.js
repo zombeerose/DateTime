@@ -20,11 +20,12 @@ Ext.define('Ext.ux.form.field.DateTime', {
     },
         
     //configurables
-    
+
     combineErrors: true,
     msgTarget: 'under',    
     layout: 'hbox',
     readOnly: false,
+    allowBlank: true,
     
     /**
      * @cfg {String} dateFormat
@@ -95,6 +96,7 @@ Ext.define('Ext.ux.form.field.DateTime', {
                     },
                     submitValue:false,
                     validateOnChange: false,
+                    allowBlank: me.allowBlank,
                     xtype: 'datefield'
                 },me.dateConfig),
                 
@@ -109,6 +111,7 @@ Ext.define('Ext.ux.form.field.DateTime', {
                         scope: me
                     },
                     submitValue:false,
+                    allowBlank: me.allowBlank,
                     xtype: 'timefield'
                 },me.timeConfig)
             ]
@@ -218,6 +221,10 @@ Ext.define('Ext.ux.form.field.DateTime', {
         }
         this.dateField.setValue(value);
         this.timeField.setValue(value);
+    },
+
+    isValid: function() {
+        return this.dateField.isValid() && this.timeField.isValid();
     }
 });
 
