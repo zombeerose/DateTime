@@ -210,6 +210,16 @@ Ext.define('Ext.ux.form.field.DateTime', {
         this.timeField.resetOriginalValue();
     },
 
+    markInvalid: function (errors) {
+        this.dateField.markInvalid(errors);
+        this.timeField.markInvalid(errors);
+    },
+
+    clearInvalid: function (errors) {
+        this.dateField.clearInvalid(errors);
+        this.timeField.clearInvalid(errors);
+    },
+
     setValue: function (value) {
         var format;
 
