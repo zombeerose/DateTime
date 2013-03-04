@@ -76,6 +76,12 @@ Ext.define('Ext.ux.form.field.DateTime', {
      */
     timeField: null,
 
+    /**
+     * @cfg {String} readOnlyCls
+     * The CSS class applied to the component's main element when it is {@link #readOnly}.
+     */
+    readOnlyCls: Ext.baseCSSPrefix + 'form-readonly',
+
     initComponent: function () {
         var me = this;
 
@@ -218,6 +224,13 @@ Ext.define('Ext.ux.form.field.DateTime', {
     clearInvalid: function (errors) {
         this.dateField.clearInvalid(errors);
         this.timeField.clearInvalid(errors);
+    },
+
+    setReadOnly: function (readOnly) {
+        this.dateField.setReadOnly(readOnly);
+        this.timeField.setReadOnly(readOnly);
+        this[readOnly ? 'addCls' : 'removeCls'](this.readOnlyCls);
+        this.readOnly = readOnly;
     },
 
     setValue: function (value) {
