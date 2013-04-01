@@ -155,6 +155,13 @@ Ext.define('Ext.ux.form.field.DateTime', {
         return ((df.submitFormat || df.format) + " " + (tf.submitFormat || tf.format));
     },
 
+    getSubmitValue: function(){   
+        var format = this.dateTimeFormat || this.getFormat(),
+            value = this.getValue();
+            
+        return value ? Ext.Date.format(value, format) : null;
+    },
+    
     /**
      * @return {Date}
      */
@@ -205,12 +212,12 @@ Ext.define('Ext.ux.form.field.DateTime', {
         this.fireEvent('change', this, this.getValue());
     },
 
-    //@inheritdoc
+    // @inheritdoc
     reset: function () {
         this.delegateFn('reset');
     },
 
-    //@inheritdoc
+    // @inheritdoc
     resetOriginalValue: function () {
         this.dateField.resetOriginalValue();
         this.timeField.resetOriginalValue();
