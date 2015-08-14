@@ -93,9 +93,7 @@ Ext.define('Ext.ux.form.field.DateTime', {
                     flex: 1,
                     isFormField: false, //exclude from field query's
                     listeners: {
-                        'blur': function () {
-                            me.onFieldChange();
-                        },
+                        'change': me.checkChange, //Use Ext-form-field-Field's checkChange
                         scope: me
                     },
                     submitValue: false,
@@ -109,9 +107,7 @@ Ext.define('Ext.ux.form.field.DateTime', {
                     flex: 1,
                     isFormField: false, //exclude from field query's
                     listeners: {
-                        'select': function () {
-                            me.onFieldChange();
-                        },
+                        'change': me.checkChange, //Use Ext-form-field-Field's checkChange
                         scope: me
                     },
                     submitValue: false,
@@ -151,26 +147,26 @@ Ext.define('Ext.ux.form.field.DateTime', {
 
     getFormat: function () {
         var df = this.dateField,
-                tf = this.timeField;
+            tf = this.timeField;
         return ((df.submitFormat || df.format) + " " + (tf.submitFormat || tf.format));
     },
 
-    getSubmitValue: function(){   
+    getSubmitValue: function(){
         var format = this.dateTimeFormat || this.getFormat(),
             value = this.getValue();
-            
+
         return value ? Ext.Date.format(value, format) : null;
     },
-    
+
     /**
      * @return {Date}
      */
     getValue: function () {
         var me = this,
-                value = null,
-                date = me.dateField.getSubmitValue(),
-                time = me.timeField.getSubmitValue(),
-                format;
+            value = null,
+            date = me.dateField.getSubmitValue(),
+            time = me.timeField.getSubmitValue(),
+            format;
 
         if (date) {
             if (time) {
@@ -207,11 +203,6 @@ Ext.define('Ext.ux.form.field.DateTime', {
         this.delegateFn('enable');
     },
 
-    // private
-    onFieldChange: function () {
-        this.fireEvent('change', this, this.getValue());
-    },
-
     // @inheritdoc
     reset: function () {
         this.delegateFn('reset');
@@ -221,6 +212,8 @@ Ext.define('Ext.ux.form.field.DateTime', {
     resetOriginalValue: function () {
         this.dateField.resetOriginalValue();
         this.timeField.resetOriginalValue();
+
+        this.checkDirty();
     },
 
     markInvalid: function (errors) {
@@ -247,8 +240,16 @@ Ext.define('Ext.ux.form.field.DateTime', {
             format = this.dateTimeFormat || this.getFormat();
             value = Ext.Date.parse(value, format); //this.dateTimeFormat
         }
+        this.dateField.suspendCheckChange++;
         this.dateField.setValue(value);
+        this.dateField.suspendCheckChange--;
+
+        this.timeField.suspendCheckChange++;
         this.timeField.setValue(value);
+        this.timeField.suspendCheckChange--;
+
+        this.checkChange();
+        return this;
     },
 
     isValid: function () {

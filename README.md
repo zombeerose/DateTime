@@ -3,7 +3,7 @@ DateTime
 
 Combines an ExtJS Date field and ExtJS Time field into one form field.
 
-ExtJS 4.1 Compatible
+ExtJS 4.1 and 5.0 Compatible
 
 Read the [Forum] post.
 
